@@ -23,7 +23,7 @@ body {
 }
 .cartList {
   margin: 5%;
-  width: 25%;
+  width: 30%;
 }
 .cartList1 {
   margin: 5%;
@@ -81,4 +81,7 @@ body {
 }
 .Price{
     margin-top: 5%;
+}
+.Remove{
+  margin: 5px;
 }

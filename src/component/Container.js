@@ -1,6 +1,7 @@
 import React from 'react';
 import { Column, Row } from 'simple-flexbox';
-import { Apple } from '../images/Apple.jpg';
+// import { Apple } from '../images/Apple.jpg';
+import Cart from './Cart';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import { createStore } from 'redux';
@@ -18,19 +19,27 @@ class Container extends React.Component {
     }
 
     addToCart(e) {
-        console.log(e.target.value);
-        // let obj = {}
-        // this.state.stockDetails.map(productList=>{
-        //     if(productList.product_id===e.target.value){
-        //         obj = productList
-        //     }
-        // })
-
+        let flag = 0;
+        this.state.cart.map(cartValue => {
+            if (cartValue.product_id == parseInt(e.target.value)) {
+                flag = 1;
+            }
+            else {
+            }
+        })
+        if (flag === 0) {
+            this.state.stockDetails.map(productList => {
+                if (productList.product_id == e.target.value) {
+                    const obj = [...this.state.cart];
+                    obj[this.state.cart.length] = productList;
+                    this.setState({ cart: obj })
+                }
+            })
+        }
     }
-    
+
     quantityCount(e) {
-        let flag=0;
-        console.log('->', e.target.value)
+        let flag = 0;
         let decryptValue = e.target.value.split(' ');
         let countValue = decryptValue[2]
         const store = createStore(CounterReducer);
@@ -40,21 +49,15 @@ class Container extends React.Component {
         });
         const Action = {
             type: decryptValue[0],
-            count_Value : decryptValue[2]
+            count_Value: decryptValue[2],
+            quantity_default: this.state.stockDetails[decryptValue[1] - 1].product_quantity
         }
         store.dispatch(Action);
-        if(flag===1){
-            console.log('After Flag',countValue)
-            this.state.stockDetails.map(product=>{  
-                if(product.product_id == decryptValue[1]){
-                    console.log(product);
-                    console.log('->',countValue)
-                    product.product_default = countValue
-                }
-            })
+        if (flag === 1) {
+            const newItems = [...this.state.stockDetails];
+            newItems[decryptValue[1] - 1].product_default = countValue;
+            this.setState({ stockDetails: newItems });
         }
-        console.log('After Increment -> ',this.state.stockDetails);
-        this.render();
     }
 
     componentDidMount() {
@@ -68,9 +71,7 @@ class Container extends React.Component {
     render() {
 
         const list = this.state.stockDetails.map((prod, index) => {
-            const a = prod.product_image_path
-            // var imagePath = require(a);
-            console.log('Path -> ', a);
+            // const a = prod.product_image_path
             return (<div className="List1" >
                 <Row >
                     <div className="design img" >
@@ -86,9 +87,9 @@ class Container extends React.Component {
                     </div>
                     <div className="design QuantityMeasure" >
                         <Row >
-                            <Button variant="light" onClick={this.quantityCount} value={"DECREMENT "+prod.product_id+" "+prod.product_default}> - </Button>
+                            <Button variant="light" onClick={this.quantityCount} value={"DECREMENT " + prod.product_id + " " + prod.product_default}> - </Button>
                             <div className="quantity"> {prod.product_default} </div>
-                            <Button variant="light" onClick={this.quantityCount} value={"INCREMENT "+prod.product_id+" "+prod.product_default}> + </Button>
+                            <Button variant="light" onClick={this.quantityCount} value={"INCREMENT " + prod.product_id + " " + prod.product_default}> + </Button>
 
                         </Row>
                     </div>
@@ -104,10 +105,18 @@ class Container extends React.Component {
         })
         return (
             <div >
-                <Column>
-                    <div className="p-2 col-example text-left Heading">Shopping Cart</div>
-                    {list}
-                </Column>
+                <Row>
+                    <div className="List">
+                        <Column>
+                            <div className="p-2 col-example text-left Heading">Shopping Cart</div>
+                            {list}
+                        </Column>
+                    </div>
+                    <div className="cartList">
+                        <Cart data={this.state.cart} />
+                    </div>
+                </Row>
+
             </div>
         )
     }
