@@ -13,7 +13,8 @@ class Cart extends React.Component {
     render() {
         console.log('Object Value -> ',this.props.data)
         const data = this.props.data
-        const cartData = data.map((cartDetails, index) => (
+        const cartData = data.map((cartDetails, index) => 
+        (
             <div className="cartList1">
                 <Row>
                     <div className="design img">
@@ -24,7 +25,7 @@ class Cart extends React.Component {
                             <div className="ProductName">{cartDetails.product_name}</div>
                             <div className="ProductDesc"></div>
                             <div className="design Price">
-                                {cartDetails.product_price}
+                                {cartDetails.product_price * cartDetails.product_default}
                             </div>
                         </Column>
                     </div>

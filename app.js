@@ -20,11 +20,15 @@ sql.connect(config, function (err) {
     if (err) {
         console.log(err);
     }
+    else{
+        console.log('Connected');
+    }
 });
 
 var request = new sql.Request();
 let checkKey = [],
-        keyValue = ''
+        keyValue = '',
+        data=[]
 app.get('/', function (req, res) {
     var sqlQuery = "select * from Product_Detail_Master";
     request.query(sqlQuery, function (err, recordset) {

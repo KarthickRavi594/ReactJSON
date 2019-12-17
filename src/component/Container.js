@@ -65,7 +65,6 @@ class Container extends React.Component {
         if (flag === 1) {
             const newItems = [...this.state.stockDetails];
             newItems[decryptValue[1] - 1].product_default = countValue;
-            newItems[decryptValue[1]-1].product_price = countValue * this.state.stockDetails[decryptValue[1]-1].product_price
             this.setState({ stockDetails: newItems });
         }
     }
