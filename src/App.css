@@ -24,6 +24,7 @@ body {
 .cartList {
   margin: 5%;
   width: 30%;
+  background-color: #777;
 }
 .cartList1 {
   margin: 5%;
@@ -78,10 +79,30 @@ body {
 }
 .quantity{
     margin: 10%;
+    font-family: cursive;
+    font-weight: 100;
 }
 .Price{
     margin-top: 5%;
 }
 .Remove{
   margin: 5px;
+}
+.ProductName{
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 700;
+}
+.ProductDesc{
+  font-family: monospace;
+  font-size: 10px;
+}
+.Price{
+  font-family: serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn-light{
+  font-family: serif;
+  font-style: oblique;
 }

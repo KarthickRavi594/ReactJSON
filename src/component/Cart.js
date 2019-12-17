@@ -8,23 +8,16 @@ class Cart extends React.Component {
         this.state = {
             cartObject : []
         }
-        this.removeCart = this.removeCart.bind(this);
-        
-    }
-    removeCart(e){
-        console.log('To Remove Cart -> ',e.target.value)
-        this.setState(prevState => ({
-            cartObject: prevState.cartObject.filter(task => task.product_id !== e.target.value)
-        }));
     }
 
     render() {
+        console.log('Object Value -> ',this.props.data)
         const data = this.props.data
         const cartData = data.map((cartDetails, index) => (
             <div className="cartList1">
                 <Row>
                     <div className="design img">
-                        <img src="" width="50" height="50" />
+                        <img src={cartDetails.product_image_path} width="50" height="50" />
                     </div>
                     <div className="design_product">
                         <Column>
@@ -36,7 +29,7 @@ class Cart extends React.Component {
                         </Column>
                     </div>
                     <div className="Remove">
-                        <Button variant="light" value={cartDetails} onClick={this.removeCart}>Remove</Button>
+                        <Button variant="light" value={cartDetails.product_id} onClick={this.props.toggle}>Remove</Button>
                     </div>
                 </Row>
             </div>

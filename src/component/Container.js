@@ -1,6 +1,5 @@
 import React from 'react';
 import { Column, Row } from 'simple-flexbox';
-// import { Apple } from '../images/Apple.jpg';
 import Cart from './Cart';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -16,6 +15,7 @@ class Container extends React.Component {
         }
         this.addToCart = this.addToCart.bind(this);
         this.quantityCount = this.quantityCount.bind(this);
+        this.removeToCart = this.removeToCart.bind(this);
     }
 
     addToCart(e) {
@@ -38,6 +38,15 @@ class Container extends React.Component {
         }
     }
 
+    removeToCart(e){
+        let value = e.target.value
+        console.log('To Remove Cart -> ',value)
+        let data = this.state.cart
+        data = data.filter(function(removeValue){return removeValue.product_id != value})
+        console.log('Deleted Value -> ', data)
+        this.setState({cart : data})
+    }
+
     quantityCount(e) {
         let flag = 0;
         let decryptValue = e.target.value.split(' ');
@@ -56,6 +65,7 @@ class Container extends React.Component {
         if (flag === 1) {
             const newItems = [...this.state.stockDetails];
             newItems[decryptValue[1] - 1].product_default = countValue;
+            newItems[decryptValue[1]-1].product_price = countValue * this.state.stockDetails[decryptValue[1]-1].product_price
             this.setState({ stockDetails: newItems });
         }
     }
@@ -71,13 +81,10 @@ class Container extends React.Component {
     render() {
 
         const list = this.state.stockDetails.map((prod, index) => {
-            // const a = prod.product_image_path
             return (<div className="List1" >
                 <Row >
                     <div className="design img" >
-                        {/* {a} */}
-                        {/* <img src={a} alt="img" width="50" height="50" /> */}
-                        <img src={require('../images/Samsung.jpg')} alt="img" width="50" height="50" />
+                        <img src={prod.product_image_path} alt="img" width="50" height="50" />
                     </div>
                     <div className="design product" >
                         <Column >
@@ -113,7 +120,7 @@ class Container extends React.Component {
                         </Column>
                     </div>
                     <div className="cartList">
-                        <Cart data={this.state.cart} />
+                        <Cart data={this.state.cart} toggle={this.removeToCart}/>
                     </div>
                 </Row>
 
