@@ -50,21 +50,22 @@ class Container extends React.Component {
     quantityCount(e) {
         let flag = 0;
         let decryptValue = e.target.value.split(' ');
-        let countValue = decryptValue[2]
+        let index = this.state.stockDetails.findIndex(i => i.product_id == decryptValue[1])
+        let userValue = this.state.stockDetails[index].product_default
         const store = createStore(CounterReducer);
         store.subscribe(function () {
-            countValue = store.getState();
+            userValue = store.getState();
             flag = 1;
         });
         const Action = {
             type: decryptValue[0],
-            count_Value: decryptValue[2],
-            quantity_default: this.state.stockDetails[decryptValue[1] - 1].product_quantity
+            user_input: this.state.stockDetails[index].product_default,
+            quantity_default: this.state.stockDetails[index].product_quantity
         }
         store.dispatch(Action);
         if (flag === 1) {
             const newItems = [...this.state.stockDetails];
-            newItems[decryptValue[1] - 1].product_default = countValue;
+            newItems[index].product_default = userValue;
             this.setState({ stockDetails: newItems });
         }
     }
